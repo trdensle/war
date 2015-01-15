@@ -1,6 +1,8 @@
 $(document).ready(function() {
 
-	//what does this do?
+	//what does this do?  Converts the number to a string so you can view 11, 12 and 13s as Jack, Queen, King.
+
+
 	var convert_value_to_string = function(value) {
 		if (value > 10) {
 			switch (value) {
@@ -18,7 +20,13 @@ $(document).ready(function() {
 		return value.toString();
 	}
 
+
+
 	//what does this do?
+
+// creates 52 cards, 13 cards into each suit
+
+
 	var deck = [];
 	var suits = ['hearts', 'diamonds', 'spades', 'clubs'];
 	for (var i = 0; i<suits.length; i++) {
@@ -26,9 +34,13 @@ $(document).ready(function() {
 		for (var j = 0; j<13; j++) {
 			deck.push({number: j+1, suit: suit});
 		}
-	}
+	};
 	
 	//what does this do?
+
+
+
+
 	var shuffle = function(array) { 
 		var copy = [];
 		var n = array.length; 
@@ -47,13 +59,33 @@ $(document).ready(function() {
 	
 	var cards_player_1 = [];
 	var cards_player_2 = [];
+
+	deck = shuffle(deck);
+
 	// write a function called deal that will evently divide the deck up between the two players
-	
+
+	var deal = function(array) {
+		for(var i = 0; i < array.length; i+2) {
+			cards_player_1.push(array[i])
+			cards_player_2.push(array[i + 1])
+		}
+
+	};
+
+	deal(deck);
 	
 	//create a function (algorithm) called "war" that takes two cards as parameters, compares them and returns a winner. A tie should return false.
-	var war = function(){
-	
-		
+	var war = function(cards_player_1,cards_player_2){
+		if (cards_player_1 > cards_player_2) {
+			return "Player 1 wins!";
+		}
+		if (cards_player_1 < cards_player_2) {
+			return "Player 2 wins!";
+		}
+
+		else {
+			return false
+		}
 	}
 	
 	var advance = function(){
@@ -74,8 +106,25 @@ $(document).ready(function() {
 		//compare the cards
 		//give the winner both cards (at end of deck)
 	var play = function(){
+		var winner = war(cards_player_1[0], cards_player_2[0]);
+
+		if (winner === "Player 1 wins") {
+			cards_player_1.push(cards_player_2.shift());
+			cards_player_1.push(cards_player_1).shift());
+		}
+		else if (winner === "Player 2 wins") {
+			cards_player_2.push(cards_player_1.shift());
+			cards_player_2.push(cards_player_2.shift());
+		}
+
+		else {
+			cards_player_1.push("Player 1 wins");
+			cards_player_2.push("Player 2 wins");
+		}
+
+
 		
-		//this function (defined below) will continue to the next turn
+		
 		advance();
 	}
 	
